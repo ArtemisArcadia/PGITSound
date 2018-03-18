@@ -1,19 +1,20 @@
 import processing.sound.*; 
-//make more arrays for different sounds e.g. ayas sounds and music
-String[] songNames = {"001.mp3", "002.mp3"};
+//make more arrays for different sounds e.g.ayas sounds and music
+String[] songNames = {"001.mp3", "002.mp3", "003.mp3", "004.mp3", "005.mp3" };
 String [] folioNames ={};
 SoundFile[] songs = new SoundFile[songNames.length]; 
 SoundFile[] folio = new SoundFile[folioNames.length];
-Sound[] music;
-Sound[] BGSounds;
-
+Sound[] music = new Sound[songs.length];
+Sound[] BGSounds = new Sound[folio.length];
+float[] fadePoints = new float[songs.length];
 
 float decay = 0.5;
 float playhead = 0;
 float startingTime = 0;
 boolean isPlaying = false;
 float amp = 1;
-
+public static int songNumber = 0;
+public static int numOfSongs = 0;
 //sound requires
 
 //  SoundFile file;
@@ -33,59 +34,126 @@ float amp = 1;
 
 void setup()
 {
-  
-  for(int i = 0; i < songNames.length; i++){
-    songs[i] = new SoundFile(this,songNames[i]);
+
+  for (int i = 0; i < songNames.length; i++) {
+    songs[i] = new SoundFile(this, songNames[i]);
+    numOfSongs++;
+    print(numOfSongs);
   }
 
-  
+
   for (int i=0; i < music.length; i++)
   {
-    music[i] = new Sound(songs[i], 0.5, 1.0);
-        //println(i);
+    music[i] = new Sound(songs[i], fadePoints[i], 0.5, 0);
+    //println(i);
   }
-
 }
 
 void draw()
+
 {
-  
+  //println(music[0].playhead);
+  //println(songNumber);
+  //print(numOfSongs);
   //println(a.decay);
   //println(b.decay);
   //b.decay = 100;
   // println(a.decay);
   //println(b.decay);
-  ////playPlaylist(sounds);
-  
+
+  if (keyPressed) {
+  }
 }
 
 void keyPressed() {
-  println(music[0].file.duration());
 
-  if (key == 'q') {
-    amp = 1;
-    music[0].file.play();
-    startingTime = millis();
-    isPlaying = true;
+  switch(key) {
+    //case '1':
+    //      if(isPlaying == true){
+    //  music[songNumber].file.stop();
+    //      }
+    //  println(songNumber);
+    //  music[songNumber].playSoundPlaylist();
+    //  break;
+////////////////////////////////////////////CONTROLS MUSIC///////////////////////////////
+
+  case '1': 
+
+    println(songNumber);
+
+
+    music[songNumber].file.stop();
+
+    if (songNumber == numOfSongs - 1) {
+
+      songNumber = 0;
+      music[songNumber].amp = 1;
+      music[songNumber].file.amp(amp);
+      music[songNumber].file.play();
+    } else {
+      songNumber++;
+      music[songNumber].amp = 1;
+      music[songNumber].file.amp(amp);
+      music[songNumber].file.play();
+    }
+    break;
+
+  case '2':
+
+    println(songNumber);
+
+
+    music[songNumber].file.stop();
+    if (songNumber == 0) {
+
+      songNumber = numOfSongs - 1;
+
+      music[songNumber].amp = 1;
+      music[songNumber].file.amp(amp);
+      music[songNumber].file.play();
+    } else {
+      songNumber--;
+      music[songNumber].amp = 1;
+      music[songNumber].file.amp(amp);
+      music[songNumber].file.play();
+    }
+
+    break;
+
+
+  case '3':
+
+    while (music[songNumber].amp >= 0) {
+      music[songNumber].amp -= 0.00001; 
+      music[songNumber].file.amp(music[songNumber].amp);
+      println(music[songNumber].amp);
+    }
+
+    break;
   }
+
+////////////////////////////////////////////CONTROLS MUSIC///////////////////////////////////////////////////////////
+////////////////////////////////////////////              ///////////////////////////////////////////////////////////
+///////////////////////////////////////////CONTROLS FOLIO////////////////////////////////////////////////////////////
+
 }
 
 //this function needs parameters, for wether its fade in or face out
 //void fadeSound(){
-  //if its fade out use this block
-  //if (playhead <= sounds[0].duration()) {
-    
-  //  if (playhead > sounds[0].duration() - decay) {
-  //    if(amp <= 0){
-  //      amp = 0;
-  //    } else {
-  //      amp-= 0.09;
-  //    }
+//if its fade out use this block
+//if (playhead <= sounds[0].duration()) {
 
-  //    sounds[0].amp(amp);
-  //  }  
-  //} 
-  
+//  if (playhead > sounds[0].duration() - decay) {
+//    if(amp <= 0){
+//      amp = 0;
+//    } else {
+//      amp-= 0.09;
+//    }
+
+//    sounds[0].amp(amp);
+//  }  
+//} 
+
 //}
 //void playPlaylist(SoundFile sounds[])
 //{
@@ -112,14 +180,14 @@ void keyPressed() {
 //  }
 //}
 
-void fadeBetween()
-{
-}
+//void fadeBetween()
+//{
+//}
 
 
 
-  
- //this function needs parameters, for wether its fade in or face out
+
+//this function needs parameters, for wether its fade in or face out
 
 
 
@@ -133,6 +201,3 @@ void fadeBetween()
 //    isPlaying = true;
 //  }
 //}
-  
-
-  
