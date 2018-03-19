@@ -1,6 +1,6 @@
 class Sound {
   SoundFile file;
-  float fadePoint;
+  //float fadePoint;
   float playhead;
   float startingTime;
   float duration;
@@ -8,9 +8,9 @@ class Sound {
   float amp;
 
 
-  Sound(SoundFile _file, float _fadePoint, float _amp, int _playhead) {
+  Sound(SoundFile _file,/* float _fadePoint,*/ float _amp, int _playhead) {
     this.file = _file;
-    this.fadePoint = _fadePoint;
+    //this.fadePoint = _fadePoint;
     this.playhead = _playhead;
     this. startingTime = 0;
     this.duration = _file.duration();
@@ -43,7 +43,7 @@ class Sound {
 
       if (playhead <= file.duration()) {
 
-        if (playhead > file.duration() - fadePoint) {
+        if (playhead > file.duration() - 3) {
           if (amp <= 0.1) {
             amp = 0f;
             Sound_Loader.songNumber += 1;
